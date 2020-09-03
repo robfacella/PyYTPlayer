@@ -27,15 +27,16 @@ def createWebdriver():
     #driver = Firefox(executable_path=gecko+'.exe', profile) #This had args backwards
     return (driver)
 def getVideoDetails(driver):
+    wait = WebDriverWait(driver, 10)
     try:
-        wait = WebDriverWait(driver, 10)
         song = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[5]/div[2]/ytd-video-primary-info-renderer/div/h1/yt-formatted-string"))).text
-        chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
     except:
         song = "ERROR"
+    try:
+        chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
+    except:
         chan = "ERROR"
-    #print (grab)
-    print ("Now Playing: " + song + " (on Channel: "+ chan +")")
+    print ("Now Playing: " + song + " (on Channel: " + chan + ")")
     sys.stdout.flush()
 def playVideo(driver, url):
     try:
