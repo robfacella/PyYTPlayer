@@ -15,6 +15,7 @@ def createWebdriver():
     return (driver)
 def playVideo(driver, url):
     driver.get(url)
+    #playlist currently breaks when it reads a BLANK line
     driver.find_element_by_id("movie_player").click() #Only needed on FIRST video
     vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
     while vidStatus != 0:
@@ -23,7 +24,6 @@ def playVideo(driver, url):
         time.sleep(1) #Wait a second and check again.
 def main():
     driver = createWebdriver()
-    #playlist currently breaks when it reads a BLANK line
     playlist = open(os.path.join('playlist.txt')).readlines()
     for url in playlist:
         playVideo(driver, url)
