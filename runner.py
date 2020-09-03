@@ -1,6 +1,7 @@
 import time
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from random import shuffle
 import os
 import sys
 def testSearch(driver):
@@ -22,8 +23,6 @@ def createWebdriver():
     driver = Firefox(profile, executable_path=gecko+'.exe')
     #driver = Firefox(executable_path=gecko+'.exe', profile) #This had args backwards
     return (driver)
-def shufflePlaylist():
-    print ("Making a good playlist even better... or not, we don't know!")
 def getVideoDetails():
     print ("Now Playing: " + song + " (on Channel: "+ +")")
 def playVideo(driver, url):
@@ -43,6 +42,7 @@ def playVideo(driver, url):
 def main():
     driver = createWebdriver()
     playlist = open(os.path.join('playlist.txt')).readlines()
+    shuffle(playlist)
     for url in playlist:
         playVideo(driver, url)
     print ("End of Playlist. Goodbye.")
