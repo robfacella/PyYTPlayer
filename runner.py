@@ -1,6 +1,9 @@
 import time
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from random import shuffle
 import os
 import sys
@@ -23,12 +26,22 @@ def createWebdriver():
     driver = Firefox(profile, executable_path=gecko+'.exe')
     #driver = Firefox(executable_path=gecko+'.exe', profile) #This had args backwards
     return (driver)
-def getVideoDetails():
-    print ("Now Playing: " + song + " (on Channel: "+ +")")
+def getVideoDetails(driver):
+    try:
+        wait = WebDriverWait(driver, 10)
+        song = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[5]/div[2]/ytd-video-primary-info-renderer/div/h1/yt-formatted-string"))).text
+        chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
+    except:
+        song = "ERROR"
+        chan = "ERROR"
+    #print (grab)
+    print ("Now Playing: " + song + " (on Channel: "+ chan +")")
+    sys.stdout.flush()
 def playVideo(driver, url):
     try:
         driver.get(url)
         driver.find_element_by_id("movie_player").click() #No AutoPlay, smei-Auto workaround
+        getVideoDetails(driver)
         vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
         while vidStatus != 0:
             #according to <https://developers.google.com/youtube/js_api_reference?csw=1> state == 0 is when a video has ended
