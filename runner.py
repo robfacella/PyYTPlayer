@@ -37,8 +37,11 @@ def getVideoDetails(driver):
         chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
     except:
         chan = "ERROR"
-    print ("Now Playing: " + song + " (on Channel: " + chan + ")")
+    print ("Now Playing: ") 
+    print ( song )
+    print ( "on Channel: " + chan )
     sys.stdout.flush()
+    print ("")
 def playVideo(driver, url):
     try:
         driver.get(url)
