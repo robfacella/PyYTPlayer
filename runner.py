@@ -12,16 +12,17 @@ def testSearch(driver):
 def createWebdriver():
     driver = webdriver.Chrome('chromedriver')  # Optional argument, if not specified will search path.
     return (driver)
+def playVideo(driver, url):
+    driver.get(url)
+    driver.find_element_by_id("movie_player").click()
+    vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
+    while vidStatus != 0:
+       #according to <https://developers.google.com/youtube/js_api_reference?csw=1> state == 0 is when a video has ended
+        vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
+        time.sleep(1) #Wait a second and check again.
 def main():
     driver = createWebdriver()
     #for url in list:
-    #    driver.get()url
-    #    driver.find_element_by_id("movie_player").click()
-    #    vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
-    #    while vidStatus != 0:
-    #        vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
-            #according to <https://developers.google.com/youtube/js_api_reference?csw=1>
-            #state == 0 is when a video has ended
-            #time.sleep(1)
+    playVideo(driver, "https://www.youtube.com/watch?v=80RzZkMCLOY")
     #testSearch(driver)
 main()
