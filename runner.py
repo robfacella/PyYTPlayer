@@ -61,7 +61,9 @@ def playVideo(driver, url):
         sys.stdout.flush()
 def main():
     driver = createWebdriver()
-    playlist = open(os.path.join('playlist.txt')).readlines()
+    playlistFile = open(os.path.join('playlist.txt'))
+    playlist = playlistFile.readlines()
+    playlistFile.close()
     shuffle(playlist)
     for url in playlist:
         playVideo(driver, url)
