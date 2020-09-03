@@ -1,5 +1,6 @@
 import time
 from selenium import webdriver
+import os
 
 def testSearch(driver):
     driver.get('http://www.google.com/');
@@ -14,7 +15,7 @@ def createWebdriver():
     return (driver)
 def playVideo(driver, url):
     driver.get(url)
-    driver.find_element_by_id("movie_player").click()
+    driver.find_element_by_id("movie_player").click() #Only needed on FIRST video
     vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
     while vidStatus != 0:
        #according to <https://developers.google.com/youtube/js_api_reference?csw=1> state == 0 is when a video has ended
@@ -22,7 +23,9 @@ def playVideo(driver, url):
         time.sleep(1) #Wait a second and check again.
 def main():
     driver = createWebdriver()
-    #for url in list:
-    playVideo(driver, "https://www.youtube.com/watch?v=80RzZkMCLOY")
-    #testSearch(driver)
+    #playlist currently breaks when it reads a BLANK line
+    playlist = open(os.path.join('playlist.txt')).readlines()
+    for url in playlist:
+        playVideo(driver, url)
 main()
+#testSearch(driver)
