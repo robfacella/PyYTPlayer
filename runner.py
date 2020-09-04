@@ -23,15 +23,17 @@ def createWebdriver():
     #for that profile Disable- Web Push Notifications
     profile.set_preference("permissions.default.desktop-notification", 1)
     #Hopefully incorporate uBlock
-    #https://intoli.com/blog/firefox-extensions-with-selenium/
-    ublockfile = os.path.normpath(os.path.join(os.path.dirname(__file__), 'uBlock0@raymondhill.net'))
-    #ublockfile = os.path.normpath(os.path.join(os.path.dirname(__file__), 'uBlock0_1.29.3b9.firefox.signed.xpi'))
-    #profile.add_extension(ublockfile)
-    #profile.set_preference("extensions.ublock0.currentVersion", "1.29.2")
+    absolutePathHack = os.environ['PWD'] #Not ideal, but she WORKS!
+    ublockfile = os.path.normpath(os.path.join(absolutePathHack, 'uBlock0@raymondhill.net'))
     #Create a driver with the above settings
     driver = Firefox(profile, executable_path=gecko+'.exe')
-    driver.install_addon(ublockfile+'.xpi', temporary=True)
-    #driver = Firefox(executable_path=gecko+'.exe', profile) #This had args backwards
+    try:
+        #Try to add local ublock.xpi to the browser; don't crash if that fails though.
+        driver.install_addon(ublockfile+'.xpi', temporary=True)
+    except:
+        print ("Could not install uBlock Origin. Is uBlock0@raymondhill.net.xpi in the same folder as the script? ")
+        print ("Try running the script from the directory it is located in, used a PWD hack for the Required AbsolutePath for AddonInstallation.")
+        print ("Will function anyway, but do you REALLY want to do this without an AdBlocker?")
     return (driver)
 def getVideoDetails(driver):
     try:
