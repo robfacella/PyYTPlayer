@@ -1,3 +1,8 @@
+#Don't want to affect uBlock statistics by bypassing the extension downloader.Pulled from: 
+#C:\Users\<username>\AppData\Roaming\Mozilla\Firefox\Profiles\umeclidp.default\extensions
+uBlock0@raymondhill.net.xpi
+#this one for manual download
+uBlock0_1.29.3b9.firefox.signed.xpi
 #Webdriver Selenium
 chromedriver.exe
 geckodriver.exe

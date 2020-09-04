@@ -9,7 +9,7 @@ import os
 import sys
 def testSearch(driver):
     driver.get('http://www.google.com/');
-    time.sleep(5) # Let the user actually see something!
+    time.sleep(5) # Let the user see something
     search_box = driver.find_element_by_name('q')
     search_box.send_keys('ChromeDriver')
     search_box.submit()
@@ -22,8 +22,15 @@ def createWebdriver():
     profile = FirefoxProfile()
     #for that profile Disable- Web Push Notifications
     profile.set_preference("permissions.default.desktop-notification", 1)
+    #Hopefully incorporate uBlock
+    #https://intoli.com/blog/firefox-extensions-with-selenium/
+    ublockfile = os.path.normpath(os.path.join(os.path.dirname(__file__), 'uBlock0@raymondhill.net'))
+    #ublockfile = os.path.normpath(os.path.join(os.path.dirname(__file__), 'uBlock0_1.29.3b9.firefox.signed.xpi'))
+    #profile.add_extension(ublockfile)
+    #profile.set_preference("extensions.ublock0.currentVersion", "1.29.2")
     #Create a driver with the above settings
     driver = Firefox(profile, executable_path=gecko+'.exe')
+    driver.install_addon(ublockfile+'.xpi', temporary=True)
     #driver = Firefox(executable_path=gecko+'.exe', profile) #This had args backwards
     return (driver)
 def getVideoDetails(driver):
