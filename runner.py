@@ -40,20 +40,37 @@ def createWebdriver():
         print ("Try running the script from the directory it is located in, used a PWD hack for the Required AbsolutePath for AddonInstallation.")
         print ("Will function anyway, but do you REALLY want to do this without an AdBlocker?")
     return (driver)
+def sanitizeTextFromHTML(htmlToPrint):
+    f = open(os.devnull, 'w') #for writing garbage print-check text to null
+    print ("Posted: ")
+    htmlText = htmlToPrint.text
+    output = ""
+    for chara in htmlText:
+        try:
+            f.write(chara) #Makes sure character is printable, but writes to <null> as so not to make a mess of the CLI
+            output = output + chara
+        except:
+            #Replace char which couldn't be encoded (ie unicode error) with the string <?>
+            #Prevents interpreter crash trying to print.
+            output = output + "<?>"
+    f.close()
+    #print (output)
+    #sys.stdout.flush()
+    return (output)
 def getVideoDetails(driver):
     try:
         wait = WebDriverWait(driver, 10)
-        song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)"))).text
+        song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)")))
     except:
         song = "ERROR"
     try:
         wait = WebDriverWait(driver, 10)
-        chan = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"ytd-channel-name.ytd-video-owner-renderer > div:nth-child(1) > div:nth-child(1) > yt-formatted-string:nth-child(1) > a:nth-child(1)"))).text
+        chan = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"ytd-channel-name.ytd-video-owner-renderer > div:nth-child(1) > div:nth-child(1) > yt-formatted-string:nth-child(1) > a:nth-child(1)")))
     except:
         chan = "ERROR"
     print ("Now Playing: ")
-    print ( song )
-    print ( "on Channel: " + chan )
+    print ( sanitizeTextFromHTML(song) )
+    print ( "on Channel: " + sanitizeTextFromHTML(chan) )
     sys.stdout.flush()
     print ("")
 def playVideo(driver, url):
