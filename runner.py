@@ -43,12 +43,12 @@ def createWebdriver():
 def getVideoDetails(driver):
     try:
         wait = WebDriverWait(driver, 10)
-        song = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[5]/div[2]/ytd-video-primary-info-renderer/div/h1/yt-formatted-string"))).text
+        song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)"))).text
     except:
         song = "ERROR"
     try:
         wait = WebDriverWait(driver, 10)
-        chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
+        chan = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"ytd-channel-name.ytd-video-owner-renderer > div:nth-child(1) > div:nth-child(1) > yt-formatted-string:nth-child(1) > a:nth-child(1)"))).text
     except:
         chan = "ERROR"
     print ("Now Playing: ")
