@@ -1,6 +1,9 @@
 # PyYTPlayer
 Python Youtube Player
 
+Special Thanks to John Franek:
+<https://www.youtube.com/channel/UCjeJLb3H0iLTrNwpZgq8t-g/featured>
+
 Using geckodriver rather than the chromedriver.
 Does not filter ALL ads, but was definately getting more adverts when using chrome.
 
