@@ -8,6 +8,7 @@ from random import shuffle
 import os
 import sys
 def testSearch(driver):
+    driver = createWebdriver()
     driver.get('http://www.google.com/');
     time.sleep(5) # Let the user see something
     search_box = driver.find_element_by_name('q')
@@ -26,7 +27,11 @@ def createWebdriver():
     absolutePathHack = os.environ['PWD'] #Not ideal, but she WORKS!
     ublockfile = os.path.normpath(os.path.join(absolutePathHack, 'uBlock0@raymondhill.net'))
     #Create a driver with the above settings
-    driver = Firefox(profile, executable_path=gecko+'.exe')
+    try:
+        driver = Firefox(profile, executable_path=gecko+'.exe')
+    except:
+                print ("[*] Could not locate < geckodriver.exe >")
+                print ("[*] Exiting..")
     try:
         #Try to add local ublock.xpi to the browser; don't crash if that fails though.
         driver.install_addon(ublockfile+'.xpi', temporary=True)
@@ -46,7 +51,7 @@ def getVideoDetails(driver):
         chan = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/div[6]/div[3]/ytd-video-secondary-info-renderer/div/div[2]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"))).text
     except:
         chan = "ERROR"
-    print ("Now Playing: ") 
+    print ("Now Playing: ")
     print ( song )
     print ( "on Channel: " + chan )
     sys.stdout.flush()
@@ -68,18 +73,22 @@ def playVideo(driver, url):
             vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
             time.sleep(1) #Wait a second and check again.
     except:
-        print("Encountered an error trying to play from < ") 
+        print("Encountered an error trying to play from < ")
         print (url + "> skipping item." )
         print ("")
         sys.stdout.flush()
+
+def getPlaylist():
+        playlistFile = open(os.path.join('playlist.txt'))
+        playlist = playlistFile.readlines()
+        playlistFile.close()
+        shuffle(playlist)
+        return(playlist)
 def main():
     driver = createWebdriver()
-    playlistFile = open(os.path.join('playlist.txt'))
-    playlist = playlistFile.readlines()
-    playlistFile.close()
-    shuffle(playlist)
+    playlist = getPlaylist()
     for url in playlist:
         playVideo(driver, url)
     print ("End of Playlist. Goodbye.")
 main()
-#testSearch(driver)
+#testSearch()
