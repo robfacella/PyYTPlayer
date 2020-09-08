@@ -42,7 +42,6 @@ def createWebdriver():
     return (driver)
 def sanitizeTextFromHTML(htmlToPrint):
     f = open(os.devnull, 'w') #for writing garbage print-check text to null
-    print ("Posted: ")
     htmlText = htmlToPrint.text
     output = ""
     for chara in htmlText:
