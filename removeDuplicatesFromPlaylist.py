@@ -23,5 +23,5 @@ playlistFile.write("")
 playlistFile.close()
 
 print ("Removed "+ str(dupes) +" Duplicates.")
-print ("[***]Warning, sometimes writes 2 lines together..")
-print ("[??]Have only seen it occur on one line per use, and only when removing duplicate entries; it's probably a relatively easy fix but so is manually scanning the text file of under 200 lines for the line twice as long as the others to split.")
+print ("[***]Warning, used to occasionally write 2 lines together..")
+print ("[???]Believe that to be fixed, instead we now leave up to 2 blank lines in the document (one just as \"\\n\" the other \"\" ) but error checking in the runner effectively ignores these in the queue anyway.")
