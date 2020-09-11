@@ -19,9 +19,9 @@ print("Non-duplicate items: " + str(unique))
 playlistFile = open(os.path.join('playlist.txt'), 'w')
 for line in newPlaylist:
 	playlistFile.write(line)
+playlistFile.write("")
 playlistFile.close()
 
 print ("Removed "+ str(dupes) +" Duplicates.")
 print ("[***]Warning, sometimes writes 2 lines together..")
 print ("[??]Have only seen it occur on one line per use, and only when removing duplicate entries; it's probably a relatively easy fix but so is manually scanning the text file of under 200 lines for the line twice as long as the others to split.")
-print ("[!!]Did not occur when I ensured that there was a NewLine at the end of the file. Coincidence? I could have the textOut ensure an extra print at the end of the file, error handling for the runner.py already has accounted for blank lines...")
