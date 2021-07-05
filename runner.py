@@ -75,6 +75,7 @@ def getVideoDetails(driver):
 def playVideo(driver, url):
     try:
         driver.get(url)
+        time.sleep(2)
         driver.find_element_by_id("movie_player").click() #No AutoPlay, smei-Auto workaround
         time.sleep(1)
         try:
