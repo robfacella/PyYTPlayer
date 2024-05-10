@@ -76,11 +76,11 @@ def playVideo(driver, url):
         driver.get(url)
         time.sleep(6)
         try:
-          mov = driver.find_element_by_id("ytd-player")
+          mov = driver.find_element("id","movie_player")
           mov.click() #No AutoPlay, smei-Auto workaround
           time.sleep(2)
-        except:
-          print ("Couldn't click on Play Window")
+        except Exception as error:
+          print ("An exception occurred: ", error)
         try:
             #Not sure why but this added try/except block seemed to improve the success rate of the nested statements?, makes no sense but SURE why not.
             getVideoDetails(driver)
