@@ -59,7 +59,7 @@ def sanitizeTextFromHTML(htmlToPrint):
 def getVideoDetails(driver):
     try:
         wait = WebDriverWait(driver, 10)
-        song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)")))
+        song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-watch-metadata:nth-child(1)")))
     except Exception as error:
         print ("An exception occurred: ", error)
         song = "ERROR"
