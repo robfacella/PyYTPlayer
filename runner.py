@@ -27,14 +27,15 @@ def createWebdriver():
     #Create a driver with the above settings
     try:
         driver = webdriver.Firefox()
-    except:
-                print ("[*] Could not locate < geckodriver.exe >")
+    except Exception as error:
+                print ("An exception occurred: ", error)
                 print ("[*] Exiting..")
                 sys.exit(1)
     try:
         #Try to add local ublock.xpi to the browser; don't crash if that fails though.
         driver.install_addon(ublockfile+'.xpi', temporary=True)
-    except:
+    except Exception as error:
+        print ("An exception occurred: ", error)
         print ("Could not install uBlock Origin. Is uBlock0@raymondhill.net.xpi in the same folder as the script? ")
         print ("Try running the script from the directory it is located in, used a PWD hack for the Required AbsolutePath for AddonInstallation.")
         print ("Will function anyway, but do you REALLY want to do this without an AdBlocker?")
@@ -59,12 +60,14 @@ def getVideoDetails(driver):
     try:
         wait = WebDriverWait(driver, 10)
         song = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)")))
-    except:
+    except Exception as error:
+        print ("An exception occurred: ", error)
         song = "ERROR"
     try:
         wait = WebDriverWait(driver, 10)
         chan = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,"ytd-channel-name.ytd-video-owner-renderer > div:nth-child(1) > div:nth-child(1) > yt-formatted-string:nth-child(1) > a:nth-child(1)")))
-    except:
+    except Exception as error:
+        print ("An exception occurred: ", error)
         chan = "ERROR"
     print ("Now Playing: ")
     print ( sanitizeTextFromHTML(song) )
@@ -84,7 +87,8 @@ def playVideo(driver, url):
         try:
             #Not sure why but this added try/except block seemed to improve the success rate of the nested statements?, makes no sense but SURE why not.
             getVideoDetails(driver)
-        except:
+        except Exception as error:
+            print ("An exception occurred: ", error)
             print ("Call to 'getVideoDetails(driver)' failed.")
             sys.stdout.flush()
         vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
@@ -92,7 +96,8 @@ def playVideo(driver, url):
             #according to <https://developers.google.com/youtube/js_api_reference?csw=1> state == 0 is when a video has ended
             vidStatus = driver.execute_script("return document.getElementById('movie_player').getPlayerState()")
             time.sleep(1) #Wait a second and check again.
-    except:
+    except Exception as error:
+        print ("An exception occurred: ", error)
         print("Encountered an error trying to play from < ")
         print (url + "> skipping item." )
         print ("")
