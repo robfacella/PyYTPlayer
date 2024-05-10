@@ -2,6 +2,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver import Firefox
 #from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
@@ -73,9 +74,10 @@ def getVideoDetails(driver):
 def playVideo(driver, url):
     try:
         driver.get(url)
-        time.sleep(4)
+        time.sleep(6)
         try:
-          driver.find_element_by_id("movie_player").click() #No AutoPlay, smei-Auto workaround
+          mov = driver.find_element_by_id("ytd-player")
+          mov.click() #No AutoPlay, smei-Auto workaround
           time.sleep(2)
         except:
           print ("Couldn't click on Play Window")
