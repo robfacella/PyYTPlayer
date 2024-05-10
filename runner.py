@@ -1,6 +1,9 @@
 import time
+from selenium import webdriver
 from selenium.webdriver import Firefox
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+#from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,20 +14,22 @@ import sys
 
 def createWebdriver():
     #Set path of Driver to the one in Local Dir
-    gecko = os.path.normpath(os.path.join(os.path.dirname(__file__), 'geckodriver'))
+    #gecko = os.path.normpath(os.path.join(os.path.dirname(__file__), 'geckodriver'))
+    #service = ( gecko+'.exe' )
     #Generate a FirefoxProfile
-    profile = FirefoxProfile()
+    #opts = Options()
     #for that profile Disable- Web Push Notifications
-    profile.set_preference("permissions.default.desktop-notification", 1)
+    #opts.set_preference("permissions.default.desktop-notification", 1)
     #Hopefully incorporate uBlock
     absolutePathHack = os.environ['PWD'] #Not ideal, but she WORKS!
     ublockfile = os.path.normpath(os.path.join(absolutePathHack, 'uBlock0@raymondhill.net'))
     #Create a driver with the above settings
     try:
-        driver = Firefox(profile, executable_path=gecko+'.exe')
+        driver = webdriver.Firefox()
     except:
                 print ("[*] Could not locate < geckodriver.exe >")
                 print ("[*] Exiting..")
+                sys.exit(1)
     try:
         #Try to add local ublock.xpi to the browser; don't crash if that fails though.
         driver.install_addon(ublockfile+'.xpi', temporary=True)
@@ -68,9 +73,12 @@ def getVideoDetails(driver):
 def playVideo(driver, url):
     try:
         driver.get(url)
-        time.sleep(2)
-        driver.find_element_by_id("movie_player").click() #No AutoPlay, smei-Auto workaround
-        time.sleep(1)
+        time.sleep(4)
+        try:
+          driver.find_element_by_id("movie_player").click() #No AutoPlay, smei-Auto workaround
+          time.sleep(2)
+        except:
+          print ("Couldn't click on Play Window")
         try:
             #Not sure why but this added try/except block seemed to improve the success rate of the nested statements?, makes no sense but SURE why not.
             getVideoDetails(driver)
