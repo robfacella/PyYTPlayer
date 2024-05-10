@@ -97,8 +97,7 @@ def playVideo(driver, url):
             time.sleep(1) #Wait a second and check again.
     except Exception as error:
         print ("An exception occurred: ", error)
-        print("Encountered an error trying to play from < " + url.rstrip() + "> skipping item." )
-        print ("")
+        print("Encountered an error trying to play from < " + url.rstrip() + " > skipping item.\n" )
         sys.stdout.flush()
 
 def getPlaylist():
