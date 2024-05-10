@@ -1,7 +1,6 @@
 import time
 from selenium import webdriver
 from selenium.webdriver import Firefox
-#from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
@@ -14,11 +13,12 @@ import sys
 
 
 def createWebdriver():
-    #Set path of Driver to the one in Local Dir
+    #Set path of Driver to the one in Local Dir, or the symLink to it
     #gecko = os.path.normpath(os.path.join(os.path.dirname(__file__), 'geckodriver'))
     #service = ( gecko+'.exe' )
-    #Generate a FirefoxProfile
+    #Generate a FirefoxProfile (deprecated)
     #opts = Options()
+    # Think I was using the push notifications disabler for Win10 at the time
     #for that profile Disable- Web Push Notifications
     #opts.set_preference("permissions.default.desktop-notification", 1)
     #Hopefully incorporate uBlock
@@ -69,15 +69,14 @@ def getVideoDetails(driver):
     except Exception as error:
         print ("An exception occurred: ", error)
         chan = "ERROR"
-    print ("Now Playing: ")
-    print ( sanitizeTextFromHTML(song) )
-    print ( "on Channel: " + sanitizeTextFromHTML(chan) )
+    print ( "Now Playing: " + sanitizeTextFromHTML(song) )
+    print ( "on Channel:  " + sanitizeTextFromHTML(chan) )
     sys.stdout.flush()
     print ("")
 def playVideo(driver, url):
     try:
         driver.get(url)
-        time.sleep(6)
+        time.sleep(3)
         try:
           mov = driver.find_element("id","movie_player")
           mov.click() #No AutoPlay, smei-Auto workaround
