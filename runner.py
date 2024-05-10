@@ -7,15 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from random import shuffle
 import os
 import sys
-def testSearch(driver):
-    driver = createWebdriver()
-    driver.get('http://www.google.com/');
-    time.sleep(5) # Let the user see something
-    search_box = driver.find_element_by_name('q')
-    search_box.send_keys('ChromeDriver')
-    search_box.submit()
-    time.sleep(5)
-    driver.quit()
+
+
 def createWebdriver():
     #Set path of Driver to the one in Local Dir
     gecko = os.path.normpath(os.path.join(os.path.dirname(__file__), 'geckodriver'))
@@ -108,4 +101,3 @@ def main():
         playVideo(driver, url)
     print ("End of Playlist. Goodbye.")
 main()
-#testSearch()
